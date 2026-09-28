@@ -1,16 +1,24 @@
 let express = require('express');
 let app = express();
-//localhost:3000/addstudent
-app.get("/addstudent", (req, res) => {
-    res.send("Add Student called");
+let mongoose = require('mongoose');
+let empRoute = require('./Route/emp_route');
+
+//connect to mongodb
+mongoose.connect("mongodb://localhost:27017/HRManagementdb").then(() => {
+    console.log("db Connected successfully");
+}).catch((err) => {
+    console.log( err);
 });
-//localhost:3000/getstudent
-app.get("/getstudent", (req, res) => {
-    res.send("Get Student called");
-});
-app.put("/updatestudent", (req, res) => {
-    res.send("Update Student called");
-});
+
+
+
+app.use("/api/emp", empRoute);
+//localhost:3000/api/emp/register =>post
+//localhost:3000/api/emp/login    =>post
+//localhost:3000/api/emp/viewtask =>get
+//localhost:3000/api/updateprofile =>patch
+
+
 //runthe server
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");
